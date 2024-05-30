@@ -4,11 +4,8 @@ describe('The City Page', () => {
   })
 
   it('successfully loads', () => {
-
     cy.visit('/city')
-
     cy.get('input#address').type(`Казань{enter}`)
-
     cy.get('table').contains('Казань').parent().find('span.ant-tag').should('exist')
   })
 })
