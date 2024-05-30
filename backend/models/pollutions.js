@@ -2,6 +2,12 @@ const {pool} = require('../database');
 const dayjs = require("dayjs");
 
 class Pollutions {
+    static async getLastQueriesList(count = 10) {
+        const selectRes = await pool.query('select p.* from pollutions p ORDER BY p.id DESC LIMIT $1', [count]);
+
+        return selectRes.rows;
+    }
+
     static async createTable() {
         const res = await pool.query(
             "create table if not exists pollutions (\n" +
@@ -18,12 +24,6 @@ class Pollutions {
         );
 
         return res.rows;
-    }
-
-    static async getLastQueriesList(count = 10) {
-        const selectRes = await pool.query('select p.* from pollutions p ORDER BY p.id DESC LIMIT $1', [count]);
-
-        return selectRes.rows;
     }
 
     static async createItem({address, lat, lon, measured_at, aqi, components}) {
